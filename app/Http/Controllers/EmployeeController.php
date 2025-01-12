@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Employee;
 
+// PRESENT 9-1-25
 class EmployeeController extends Controller
 {
     public function index(Request $request)
@@ -21,11 +22,11 @@ class EmployeeController extends Controller
         }
 
         $employees = Employee::when($query, function ($queryBuilder, $query) {
-            $queryBuilder->where('first_name', 'like', '%' . $query . '%')
+            $queryBuilder->where('first_name', 'like', '%' . $query . '%') //ถ้าจะแก้ให้หาด้วย id
                 ->orWhere('last_name', 'like', '%' . $query . '%');
         })
         ->orderBy($sortColumn, $sortOrder) // Apply sorting
-        ->paginate(10);
+        ->paginate(10); //โชว์จำนวนขิอมูลต่อหน้า
 
         return Inertia::render('Employee/Index', [
             'employees' => $employees,
@@ -34,7 +35,7 @@ class EmployeeController extends Controller
             'sortOrder' => $sortOrder,
         ]);
     }
-
+// PRESENT 9-1-25
 
 
     public function create()

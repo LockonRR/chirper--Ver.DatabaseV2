@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 // นำเข้า Inertia สำหรับการเรนเดอร์หน้าเว็บ
 use Inertia\Inertia;
 
-Route::get('/employee', [EmployeeController::class, 'index']);
+Route::get('/employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee');;
 
 //7-1-25
 // หน%าแบบฟอร,มสำหรับเพิ่มข้อมูลพนักงาน
