@@ -8,14 +8,37 @@ export default function Create({ departments }) {
         dept_no: '',
         gender: '',
         hire_date: '',
-        image: '',
+        photo: null,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // ส่งข้อมูลไปยังเซิร์ฟเวอร์
-        post('/employee');
+        if (
+            !data.first_name ||
+            !data.dept_no ||
+            !data.birth_date ||
+            !data.gender ||
+            !data.hire_date
+        ) {
+            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            return;
+        }
+
+        if (data.photo && data.photo.size > 2 * 1024 * 1024) {
+            alert('ไฟล์รูปภาพต้องมีขนาดไม่เกิน 2MB');
+            return;
+        }
+
+        post('/employee', {
+            onSuccess: () => {
+                alert('Employee added successfully!');
+            },
+            onError: (errors) => {
+                console.error(errors);
+                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+            },
+        });
     };
 
     return (
@@ -160,6 +183,35 @@ export default function Create({ departments }) {
                     {errors.dept_no && (
                         <span className="text-sm text-red-500">
                             {errors.dept_no}
+                        </span>
+                    )}
+                </div>
+
+                {/* Photo */}
+                <div className="mb-4">
+                    <label
+                        htmlFor="photo"
+                        className="mb-2 block font-semibold text-gray-700"
+                    >
+                        Photo:
+                    </label>
+                    <input
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file && file.size > 2 * 1024 * 1024) {
+                                alert('ไฟล์รูปภาพต้องมีขนาดไม่เกิน 2MB');
+                                return;
+                            }
+                            setData('photo', file);
+                        }}
+                        className="w-full rounded-lg border border-gray-500 bg-gray-100 p-3 text-black focus:outline-none focus:ring-4 focus:ring-gray-500"
+                    />
+                    {errors.photo && (
+                        <span className="text-sm text-red-500">
+                            {errors.photo}
                         </span>
                     )}
                 </div>

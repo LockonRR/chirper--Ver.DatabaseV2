@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // กลุ่มเส้นทาง Employee
-Route::middleware(['auth', 'verified'])->prefix('employee')->name('employee.')->group(function () {
-    Route::get('/', [EmployeeController::class, 'index'])->name('index');
-    Route::get('/create', [EmployeeController::class, 'create'])->name('create');
-    Route::post('/', [EmployeeController::class, 'store'])->name('store');
-});
+Route::get('/employee', [EmployeeController::class, 'index'])
+->name('employee.index');
+
+Route::get('/employee/create', [EmployeeController::class, 'create'])
+    ->name('employee.create');
+
+Route::post('/employee', [EmployeeController::class, 'store'])
+->name('employee.store');
 
 // เส้นทางหลักของเว็บไซต์
 Route::get('/', function () {

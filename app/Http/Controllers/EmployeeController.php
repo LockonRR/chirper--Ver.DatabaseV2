@@ -63,7 +63,7 @@ class EmployeeController extends Controller
             'birth_date' => 'required|date',
             'dept_no' => 'required|exists:departments,dept_no',
             'gender' => 'required|in:M,F',
-            'image' => 'nullable|image|mimes:jpeg,png|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png|max:2048',
         ]);
 
         DB::transaction(function () use ($validated) {
@@ -96,10 +96,10 @@ class EmployeeController extends Controller
                     'image_path' => $imagePath,
                 ]);
             }
+
         });
 
         // 6. ส่งกลับไปหน้ารายการพนักงานพร้อมกับข้อความแจ้งเตือน
         return redirect()->route('employee.index')->with('success', 'Employee created successfully.');
     }
-
-    }
+}

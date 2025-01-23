@@ -92,28 +92,28 @@ export default function Index({ employees, query }) {
                                         'last_name',
                                         'gender',
                                         'birth_date',
+                                        'photo', // เพิ่มหัวข้อสำหรับคอลัมน์รูปภาพ
                                     ].map((col) => (
                                         <th
                                             key={col}
-                                            onClick={() => handleSort(col)} // จัดเรียงข้อมูลเมื่อคลิกที่หัวคอลัมน์
+                                            onClick={() => handleSort(col)}
                                             className="cursor-pointer px-4 py-3 text-left transition hover:bg-gray-300"
                                         >
                                             {col
                                                 .replace('_', ' ')
-                                                .toUpperCase()}{' '}
-                                            {/* แปลงชื่อคอลัมน์ให้เป็นตัวพิมพ์ใหญ่ */}
+                                                .toUpperCase()}
                                             {sortColumn === col && (
                                                 <span>
                                                     {sortOrder === 'asc'
                                                         ? ' ↑'
-                                                        : ' ↓'}{' '}
-                                                    {/* แสดงลำดับการจัดเรียง */}
+                                                        : ' ↓'}
                                                 </span>
                                             )}
                                         </th>
                                     ))}
                                 </tr>
                             </thead>
+
                             <tbody>
                                 {employees.data.map((employee, index) => (
                                     <tr
@@ -124,7 +124,6 @@ export default function Index({ employees, query }) {
                                                 : 'bg-gray-100'
                                         } hover:bg-gray-300`}
                                     >
-                                        {/* ข้อมูลพนักงาน */}
                                         <td className="px-4 py-3">
                                             {employee.emp_no}
                                         </td>
@@ -141,6 +140,19 @@ export default function Index({ employees, query }) {
                                         </td>
                                         <td className="px-4 py-3">
                                             {employee.birth_date}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {employee.photo ? (
+                                                <img
+                                                    src={`/storage/${employee.photo}`} // แสดงรูปภาพจาก path ในฐานข้อมูล
+                                                    alt={`${employee.first_name} ${employee.last_name}`}
+                                                    className="h-16 w-16 rounded-full object-cover"
+                                                />
+                                            ) : (
+                                                <span className="text-gray-500">
+                                                    No Photo
+                                                </span> // กรณีไม่มีรูป
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
